@@ -8,7 +8,7 @@ const BookCatalog = () => {
   const [title, setTitle] = useState("")
   const [books, setBooks] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const BASE_URL = `https://example-data.draftbit.com/books?_limit=100`;
+  const BASE_URL = `https://example-data.draftbit.com/books?_limit=200`;
   // pagination
   const [itemOffset, setItemOffset] = useState(0)
   const itemsPerPage = 6

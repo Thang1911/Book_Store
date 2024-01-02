@@ -24,17 +24,20 @@ const Register = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/api/register", {
+            const res = await fetch(
+              "https://book-store-teal-one.vercel.app/api/register",
+              {
                 headers: {
-                    "Content-Type": "application/json"
+                  "Content-Type": "application/json",
                 },
                 method: "POST",
                 body: JSON.stringify({
-                    username,
-                    email,
-                    password
-                })
-            })
+                  username,
+                  email,
+                  password,
+                }),
+              }
+            );
 
             // 2xx
             if (res.ok) {

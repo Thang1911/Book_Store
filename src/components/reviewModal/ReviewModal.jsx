@@ -47,11 +47,14 @@ const ReviewModal = ({
         userId: session?.user?._id
       }
 
-      const res = await fetch("http://localhost:3000/api/review", {
-        headers,
-        method: "POST",
-        body: JSON.stringify(body)
-      })
+      const res = await fetch(
+        "https://book-store-teal-one.vercel.app/api/review",
+        {
+          headers,
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
 
       console.log(await res.json())
 

@@ -21,13 +21,16 @@ const Button = ({ book }) => {
         status: "Unchecked",
       };
 
-      const response = await fetch("http://localhost:3000/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newItem),
-      });
+      const response = await fetch(
+        "https://book-store-teal-one.vercel.app/api/cart",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newItem),
+        }
+      );
 
       const result = await response.json();
 

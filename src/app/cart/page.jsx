@@ -19,7 +19,7 @@ const Cart = () => {
   const handleItem = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/cart?userId=${data?.user?._id}`
+        `https://book-store-teal-one.vercel.app/api/cart?userId=${data?.user?._id}`
       );
 
       if (res.ok) {
@@ -45,7 +45,7 @@ const Cart = () => {
       );
       if (confirmation) {
         const response = await fetch(
-          `http://localhost:3000/api/cart?userId=${id}&productName=${name}`,
+          `https://book-store-teal-one.vercel.app/api/cart?userId=${id}&productName=${name}`,
           {
             method: "DELETE",
             headers: {
