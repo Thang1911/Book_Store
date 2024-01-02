@@ -24,7 +24,7 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "http://localhost:3000",
+            value: "https://book-store-teal-one.vercel.app/",
           },
           // Allows for specific methods accepted
           {
