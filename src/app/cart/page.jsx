@@ -70,42 +70,44 @@ const Cart = () => {
     }
   };
 
-  const handleCheckOut = async () => {
-    try {
-      const confirmation = window.confirm(
-        "Bạn có chắc muốn đặt đơn hàng này không?"
+const handleCheckOut = async () => {
+  try {
+    const confirmation = window.confirm(
+      "Bạn có chắc muốn đặt đơn hàng này không?"
+    );
+    if (confirmation) {
+      const response = await fetch(
+        `https://book-store-teal-one.vercel.app/api/order`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: data?.user?._id,
+            product: items,
+            price: totalPrice,
+            status: "In process",
+          }),
+        }
       );
-      if (confirmation) {
-        const response = await fetch(
-          `https://book-store-teal-one.vercel.app/api/order`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: {
-              userId: data?.user?._id,
-              product: items,
-              price: totalPrice,
-              status: "In process"
-            },
-          }
-        );
 
-        if (!response.ok) {
-          throw new Error("Đặt đơn hàng không thành công");
-        }
-
-        // Xóa thành công, reload trang
-        if (response.status === 200) {
-          toast.success("Đặt đơn hàng thành công!");
-        }
+      if (!response.ok) {
+        throw new Error("Đặt đơn hàng không thành công");
       }
-    } catch (error) {
-      console.error(error);
-      // Xử lý lỗi nếu có
+
+      // Xử lý khi đặt đơn hàng thành công
+      if (response.status === 200) {
+        toast.success("Đặt đơn hàng thành công!");
+        // Thực hiện các hành động cần thiết sau khi đặt hàng thành công
+      }
     }
+  } catch (error) {
+    console.error(error);
+    // Xử lý lỗi nếu có
   }
+};
+
 
   return (
     <>
@@ -191,7 +193,7 @@ const Cart = () => {
                   <span className="font-semibold">Total</span>
                   <span className="font-semibold">${totalPrice + 1.99 + 3.45}</span>
                 </div>
-                <button onClick={handleCheckOut()} className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
+                <button onClick={handleCheckOut} className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
                   Checkout
                 </button>
               </div>
