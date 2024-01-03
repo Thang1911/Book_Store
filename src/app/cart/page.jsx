@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { toast } from "react-toastify";
+import Country from "@/components/country/Country";
 
 const Cart = () => {
   const [items, setItems] = useState();
@@ -68,6 +69,44 @@ const Cart = () => {
       // Xử lý lỗi nếu có
     }
   };
+
+  const handleCheckOut = async () => {
+    try {
+      const confirmation = window.confirm(
+        "Bạn có chắc muốn đặt đơn hàng này không?"
+      );
+      if (confirmation) {
+        const response = await fetch(
+          `https://book-store-teal-one.vercel.app/api/order`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: {
+              userId: data?.user?._id,
+              product: items,
+              price: totalPrice,
+              status: "In process"
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Đặt đơn hàng không thành công");
+        }
+
+        // Xóa thành công, reload trang
+        if (response.status === 200) {
+          toast.success("Đặt đơn hàng thành công!");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      // Xử lý lỗi nếu có
+    }
+  }
+
   return (
     <>
       <div className="bg-gray-100 h-screen py-8">
@@ -160,6 +199,8 @@ const Cart = () => {
           </div>
         </div>
       </div>
+
+      {/* <Country /> */}
     </>
   );
 };
