@@ -52,7 +52,7 @@ const Details = (ctx) => {
     const fetchReviews = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/review?bookId=${id}`
+          `https://book-store-teal-one.vercel.app/api/review?bookId=${id}`
         );
         const data = await res.json();
 
@@ -78,16 +78,13 @@ const Details = (ctx) => {
         price: price,
         status: "Unchecked",
       };
-      const response = await fetch(
-        "https://book-store-teal-one.vercel.app/api/cart",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newItem),
-        }
-      );
+      const response = await fetch("https://book-store-teal-one.vercel.app/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newItem),
+      });
 
       const result = await response.json();
 

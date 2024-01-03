@@ -11,8 +11,8 @@ export async function POST(req) {
       line_items: body,
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: "https://book-store-teal-one.vercel.app/success",
-      cancel_url: "https://book-store-teal-one.vercel.app/",
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/",
     });
 
     console.log(session);
