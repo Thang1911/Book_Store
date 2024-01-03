@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import Country from "@/components/country/Country";
 
 const Cart = () => {
-  const [items, setItems] = useState();
+  const [items, setItems] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
   const { data } = useSession();
 
@@ -39,6 +39,7 @@ const Cart = () => {
       console.error("Lỗi khi lấy dữ liệu từ API:", error);
     }
   };
+
   const handleDelete = async (id, name) => {
     try {
       const confirmation = window.confirm(
@@ -48,7 +49,7 @@ const Cart = () => {
         const response = await fetch(
           `https://book-store-teal-one.vercel.app/api/cart?userId=${id}&productName=${name}`,
           {
-            method: "DELETE",
+            method: "UPDATE",
             headers: {
               "Content-Type": "application/json",
             },
@@ -69,6 +70,33 @@ const Cart = () => {
       // Xử lý lỗi nếu có
     }
   };
+
+  const clearCart = async (id) => {
+    try {
+        const response = await fetch(
+          `https://book-store-teal-one.vercel.app/api/cart?userId=${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Xóa sản phẩm không thành công");
+        }
+
+        // Xóa thành công, reload trang
+        if (response.status === 200) {
+          return 
+        }
+
+    } catch (error) {
+      console.error(error);
+      // Xử lý lỗi nếu có
+    }
+  }
 
 const handleCheckOut = async () => {
   try {
@@ -99,6 +127,8 @@ const handleCheckOut = async () => {
       // Xử lý khi đặt đơn hàng thành công
       if (response.status === 200) {
         toast.success("Đặt đơn hàng thành công!");
+        clearCart(data?.user?._id);
+        setItems({});
         // Thực hiện các hành động cần thiết sau khi đặt hàng thành công
       }
     }

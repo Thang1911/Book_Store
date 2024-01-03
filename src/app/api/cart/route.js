@@ -51,7 +51,7 @@ export async function GET(request) {
   }
 }
 
-export async function DELETE(request) {
+export async function UPDATE(request) {
   try {
     await db.connect();
     const { searchParams } = new URL(request.url);
@@ -65,6 +65,33 @@ export async function DELETE(request) {
 
     // // Sử dụng userId để tìm kiếm Cart
     const deletedItem = await Cart.findOneAndDelete({ userId, productName });
+
+    if (!deletedItem) {
+      throw new Error("Không tìm thấy sản phẩm để xóa");
+    }
+
+    return NextResponse.json(
+      { message: "Xóa sản phẩm thành công" },
+      { status: 200 }
+    );
+  } catch (err) {
+    return new NextResponse(JSON.stringify(err.message), { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    await db.connect();
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+
+    // // Kiểm tra xem userId có tồn tại không
+    if (!userId) {
+      throw new Error("Thiếu thông tin userId");
+    }
+
+    // // Sử dụng userId để tìm kiếm Cart
+    const deletedItem = await Cart.deleteMany({ userId });
 
     if (!deletedItem) {
       throw new Error("Không tìm thấy sản phẩm để xóa");
